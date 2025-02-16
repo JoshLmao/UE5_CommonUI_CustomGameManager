@@ -150,7 +150,7 @@ void UGameUIPolicy::OnRootLayoutAddedToViewport(UCommonLocalPlayer* LocalPlayer,
 	if (GIsEditor && LocalPlayer->IsPrimaryPlayer())
 	{
 		// So our controller will work in PIE without needing to click in the viewport
-		FSlateApplication::Get().SetUserFocusToGameViewport(0);
+		FSlateApplication::Get().SetUserFocusToGameViewport(LocalPlayer->GetLocalPlayerIndex());
 	}
 #endif
 }

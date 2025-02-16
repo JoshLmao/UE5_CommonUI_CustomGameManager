@@ -13,4 +13,7 @@ UCLASS()
 class UE5_COMMONUI_TEMP_API USharedViewport_GameUIManager : public UGameUIManagerSubsystem
 {
 	GENERATED_BODY()
+
+public:
+	virtual void NotifyPlayerAdded(UCommonLocalPlayer* LocalPlayer) override;
 };
