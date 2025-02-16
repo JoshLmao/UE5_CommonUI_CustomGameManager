@@ -24,8 +24,25 @@ protected:
 
 	UFUNCTION()
 	void OnBtnClicked();
+	UFUNCTION()
+	void OnTwoBtnClicked();
+	UFUNCTION()
+	void OnThreeBtnClicked();
+	UFUNCTION()
+	void OnFourBtnClicked();
 
 private:
 	UPROPERTY(meta = (BindWidget))
 	class UButton* OneButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* TwoButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* ThreeButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* FourButton;
+
+	void OpenCoopLandingForPlayer(int32 PlayerIndex);
 };

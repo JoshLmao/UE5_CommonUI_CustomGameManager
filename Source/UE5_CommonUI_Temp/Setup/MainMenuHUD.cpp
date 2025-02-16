@@ -19,10 +19,11 @@ void AMainMenuHUD::BeginPlay()
 	{
 		OpenWidget(FGameplayTag::RequestGameplayTag("UI.MainMenu.Landing"));
 	}
-	else
-	{
-		OpenWidget(FGameplayTag::RequestGameplayTag("UI.MainMenu.CoopPlayerLanding"));
-	}
+	// Uncomment to open on start for other local players
+	// else
+	// {
+	// 	OpenWidget(FGameplayTag::RequestGameplayTag("UI.MainMenu.CoopPlayerLanding"));
+	// }
 }
 
 void AMainMenuHUD::OpenWidget(FGameplayTag WidgetTag)
