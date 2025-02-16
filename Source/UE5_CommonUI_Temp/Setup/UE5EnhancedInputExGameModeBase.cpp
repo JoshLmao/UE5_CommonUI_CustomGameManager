@@ -16,5 +16,6 @@ void AUE5EnhancedInputExGameModeBase::BeginPlay()
 	Super::BeginPlay();
 
 	FString Error;
-	auto NewPlayer = GetGameInstance()->CreateLocalPlayer(1, Error, true);
+	auto P1 = GetGameInstance()->CreateInitialPlayer(Error);
+	auto P2 = GetGameInstance()->CreateLocalPlayer(1, Error, true);
 }

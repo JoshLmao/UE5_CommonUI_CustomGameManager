@@ -14,7 +14,15 @@ void AMainMenuHUD::BeginPlay()
 	GetOwningPlayerController()->SetInputMode(InputModeData);
 
 	// Open our landing menu at start
-	OpenWidget(FGameplayTag::RequestGameplayTag("UI.MainMenu.Landing"));
+	auto LocalPlayer = GetOwningPlayerController()->GetLocalPlayer();
+	if (LocalPlayer->IsPrimaryPlayer())
+	{
+		OpenWidget(FGameplayTag::RequestGameplayTag("UI.MainMenu.Landing"));
+	}
+	else
+	{
+		OpenWidget(FGameplayTag::RequestGameplayTag("UI.MainMenu.CoopPlayerLanding"));
+	}
 }
 
 void AMainMenuHUD::OpenWidget(FGameplayTag WidgetTag)
@@ -22,15 +30,21 @@ void AMainMenuHUD::OpenWidget(FGameplayTag WidgetTag)
 	checkf(UIConfig.Contains(WidgetTag), TEXT("Doesnt have tag!"));
 
 	auto OwningLocalPlayer = GetOwningPlayerController()->GetLocalPlayer();
-	if (UPrimaryGameLayout* RootLayout = UPrimaryGameLayout::GetPrimaryGameLayout(OwningLocalPlayer))
+	auto PrimaryLocalPlayer = GetWorld()->GetFirstPlayerController()->GetLocalPlayer();
+	if (UPrimaryGameLayout* RootLayout = UPrimaryGameLayout::GetPrimaryGameLayout(PrimaryLocalPlayer))
 	{
 		if (IsValid(ActiveActivatable))
 		{
 			RootLayout->FindAndRemoveWidgetFromLayer(ActiveActivatable);
 		}
 
-		auto Layer = FGameplayTag::RequestGameplayTag(TEXT("UI.Layer.Menu"));
-		ActiveActivatable = RootLayout->PushWidgetToLayerStack(Layer, UIConfig[WidgetTag]);
-		ActiveActivatable->SetUserFocus(GetOwningPlayerController());
+		// clang-format off
+		auto lambda = [this, OwningLocalPlayer](UCommonActivatableWidget& Widget)
+		{
+			UE_LOG(LogTemp, Log, TEXT("%s Activatable owned by local player %s - idx: %d"), *Widget.GetName(), *OwningLocalPlayer->GetName(), OwningLocalPlayer->GetLocalPlayerIndex());
+			Widget.SetPlayerContext(FLocalPlayerContext(OwningLocalPlayer));
+		};
+		// clang-format on
+		ActiveActivatable = RootLayout->PushWidgetToLayerStack<UCommonActivatableWidget>(UIConfig[WidgetTag].Layer, UIConfig[WidgetTag].WidgetClass, lambda);
 	}
 }
