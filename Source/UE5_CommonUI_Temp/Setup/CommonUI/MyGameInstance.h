@@ -13,5 +13,4 @@ UCLASS()
 class UE5_COMMONUI_TEMP_API UMyGameInstance : public UCommonGameInstance
 {
 	GENERATED_BODY()
-	
 };

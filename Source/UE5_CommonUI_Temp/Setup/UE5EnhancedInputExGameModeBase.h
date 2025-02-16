@@ -16,4 +16,7 @@ class UE5_COMMONUI_TEMP_API AUE5EnhancedInputExGameModeBase : public AGameModeBa
 
 public:
 	AUE5EnhancedInputExGameModeBase();
+
+protected:
+	virtual void BeginPlay() override;
 };
